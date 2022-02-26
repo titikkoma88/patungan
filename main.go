@@ -2,8 +2,10 @@ package main
 
 import (
 	"log"
+	"patungan/handler"
 	"patungan/user"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -19,13 +21,27 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
-	
-	userInput := user.RegisterUserInput{}
-	userInput.Name = "Tes simpan dari service"
-	userInput.Email = "contoh@gmil.com"
-	userInput.Occupation = "Student"
-	userInput.Password = "password"
 
-	userService.RegisterUser(userInput)
+	userHandler := handler.NewUserHandler(userService)
+
+	router := gin.Default()
+	api := router.Group("/api/v1")
+
+	api.POST("/users", userHandler.RegisterUser)
+
+	router.Run(":8888")
+	
+	// userInput := user.RegisterUserInput{}
+	// userInput.Name = "Tes simpan dari service"
+	// userInput.Email = "contoh@gmil.com"
+	// userInput.Occupation = "Student"
+	// userInput.Password = "password"
+
+	// userService.RegisterUser(userInput)
 
 }
+// input dari user
+// handler, mapping input dari user -> struct input
+// service : melakukan mapping dari struct input ke struct User
+// repository
+// db
