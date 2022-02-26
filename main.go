@@ -1,25 +1,15 @@
 package main
 
 import (
-	// "fmt"
 	"log"
-	"net/http"
 	"patungan/user"
 
-	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func main() {
 
-	router := gin.Default()
-	router.GET("/handler", handler)
-	router.Run()
-
-}
-
-func handler(c *gin.Context)  {
 	dsn := "root:root@tcp(127.0.0.1:3306)/patungan?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
@@ -27,10 +17,11 @@ func handler(c *gin.Context)  {
 		log.Fatal(err.Error())
 	}
 
-	var users []user.User
-	db.Find((&users))
+	userRepository := user.NewRepository(db)
+	user := user.User {
+		Name: "Test Simpan",
+	}
 
-	c.JSON(http.StatusOK, users)
+	userRepository.Save(user)
+
 }
-
-
