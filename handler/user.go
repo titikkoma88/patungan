@@ -118,13 +118,11 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 		"is_available": isEmailAvailable,
 	}
 
-	var metaMessage string
+	metaMessage := "Email has been registered"
 
 	if isEmailAvailable {
 		metaMessage = "Email is available"
-	} else {
-		metaMessage = "Email has been registered"
-	}
+	} 
 
 	response := helper.APIResponse(metaMessage, http.StatusOK, "success", data)
 	c.JSON(http.StatusUnprocessableEntity, response)
