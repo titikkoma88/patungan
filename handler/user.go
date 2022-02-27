@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"patungan/helper"
 	"patungan/user"
@@ -127,18 +128,7 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 	// repo ambil data user yg ID = 1
 	// repo update data user, simpan lokasi file.
 	
-	file, err := c.FormFile("avatar") 
-	if err != nil {
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "error", data)
-
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-
-	path := "images/" + file.Filename
-
-	c.SaveUploadedFile(file, path)
+	file, err := c.FormFile("avatar")
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
 		response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "error", data)
@@ -150,10 +140,22 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 	// data hardcore sementara (harusnya dapat dari JWT)
 	userID := 1
 
+	// path := "images/" + file.Filename
+	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
+
+	c.SaveUploadedFile(file, path)
+	if err != nil {
+		data := gin.H{"is_uploaded": false}
+		response := helper.APIResponse("Failed to upload avatar image 2", http.StatusBadRequest, "error", data)
+
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
 	_, err = h.userService.SaveAvatar(userID, path)
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
-		response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "error", data)
+		response := helper.APIResponse("Failed to upload avatar image 3", http.StatusBadRequest, "error", data)
 
 		c.JSON(http.StatusBadRequest, response)
 		return
