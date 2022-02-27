@@ -120,6 +120,7 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 }
 
 func (h *userHandler) UploadAvatar(c *gin.Context) {
+	// c.SaveUploadedFile(file, )
 	// input dari user
 	// simpan gambarnya di folder "images/"
 	// di service kita panggil repo
