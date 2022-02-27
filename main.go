@@ -23,17 +23,19 @@ func main() {
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 
-	userByEmail, err := userRepository.FindByEmail("mail@panjihadjarati.com")
+	input := user.LoginInput{
+		Email:    "mail@panjihadjarati.com",
+		Password: "password",
+	}
 
+	user, err := userService.Login(input)
 	if err != nil {
+		fmt.Println("Terjadi kesalahan")
 		fmt.Println(err.Error())
 	}
 
-	if userByEmail.ID == 0 {
-		fmt.Println("User tidak ditemukan")
-	} else {
-		fmt.Println(userByEmail.Name)
-	}
+	fmt.Println(user.Email)
+	fmt.Println(user.Name)
 
 	userHandler := handler.NewUserHandler(userService)
 
@@ -43,7 +45,7 @@ func main() {
 	api.POST("/users", userHandler.RegisterUser)
 
 	router.Run(":8888")
-	
+
 	// userInput := user.RegisterUserInput{}
 	// userInput.Name = "Tes simpan dari service"
 	// userInput.Email = "contoh@gmil.com"
@@ -53,6 +55,7 @@ func main() {
 	// userService.RegisterUser(userInput)
 
 }
+
 // input dari user
 // handler, mapping input dari user -> struct input
 // service : melakukan mapping dari struct input ke struct User
