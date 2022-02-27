@@ -17,10 +17,6 @@ func NewUserHandler(userService user.Service) *userHandler {
 }
 
 func (h *userHandler) RegisterUser(c *gin.Context) {
-	// tangkap input dari user
-	// map input dari user ke struct RegisterUserInput
-	// struct di atas kita passing sebagai parameter service
-
 	var input user.RegisterUserInput
 
 	err := c.ShouldBindJSON(&input)
@@ -87,12 +83,6 @@ func (h *userHandler) Login(c *gin.Context) {
 }
 
 func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
-	// ada input email dari user
-	// input email di mapping ke stuct input
-	// struct input di passing ke service
-	// serbice akan memanggil repository - email sudah ada atau belum
-	// repository - db
-
 	var input user.CheckEmailInput
 
 	err := c.ShouldBindJSON(&input)
@@ -127,4 +117,14 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 	response := helper.APIResponse(metaMessage, http.StatusOK, "success", data)
 	c.JSON(http.StatusUnprocessableEntity, response)
 
+}
+
+func (h *userHandler) UploadAvatar(c *gin.Context) {
+	// input dari user
+	// simpan gambarnya di folder "images/"
+	// di service kita panggil repo
+	// JWT (sementara hardcore, seakan2 user yg login ID = 1)
+	// repo ambil data user yg ID = 1
+	// repo update data user, simpan lokasi file.
+	
 }
