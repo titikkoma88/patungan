@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"patungan/auth"
 	"patungan/handler"
@@ -38,3 +37,11 @@ func main() {
 	router.Run(":8888")
 
 }
+
+// middleware
+// ambil nilai header Authorization: Bearer tokentokentoken
+// dari header Authorization, ambil nilai tokennya saja
+// validasi token
+// ambil user_id
+// ambil user dari db berdasarkan user_id lewat service interface
+// set context isinya user
