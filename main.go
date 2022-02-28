@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"patungan/auth"
 	"patungan/handler"
@@ -23,6 +24,25 @@ func main() {
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
+
+	token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1fQ.cxbzzE3L_pfz1rfrtNj6NUkPf5KACTaWzMEIps6nn0M")
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println("ERROR")
+		fmt.Println("ERROR")
+	}
+
+	if token.Valid {
+		fmt.Println("VALID")
+		fmt.Println("VALID")
+		fmt.Println("VALID")
+	} else {
+		fmt.Println("INVALID")
+		fmt.Println("INVALID")
+		fmt.Println("INVALID")
+	}
+
+
 
 	userHandler := handler.NewUserHandler(userService, authService)
 
