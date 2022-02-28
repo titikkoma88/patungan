@@ -37,7 +37,6 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 
-	// token, err := h.jwtService.GenerateToken()
 	formatter := user.FormatUser(newUser, "tokentokentoken")
 
 	response := helper.APIResponse("Account has been registered", http.StatusOK, "success", formatter)
@@ -46,13 +45,6 @@ func (h *userHandler) RegisterUser(c *gin.Context) {
 }
 
 func (h *userHandler) Login(c *gin.Context) {
-	// user  memasukan input (email & password)
-	// input ditangkap handler
-	// mapping dari input user ke input struct
-	// input struct passing service
-	// di service mencari dg bantuan repsoitory user dengan email
-	// mencocokan password
-
 	var input user.LoginInput
 
 	err := c.ShouldBindJSON(&input)
@@ -121,12 +113,6 @@ func (h *userHandler) CheckEmailAvailability(c *gin.Context) {
 }
 
 func (h *userHandler) UploadAvatar(c *gin.Context) {
-	// input dari user
-	// simpan gambarnya di folder "images/"
-	// di service kita panggil repo
-	// JWT (sementara hardcore, seakan2 user yg login ID = 1)
-	// repo ambil data user yg ID = 1
-	// repo update data user, simpan lokasi file.
 	
 	file, err := c.FormFile("avatar")
 	if err != nil {
@@ -140,7 +126,6 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 	// data hardcore sementara (harusnya dapat dari JWT)
 	userID := 1
 
-	// path := "images/" + file.Filename
 	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
 	c.SaveUploadedFile(file, path)
