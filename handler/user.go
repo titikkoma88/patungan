@@ -166,3 +166,5 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 
 		c.JSON(http.StatusOK, response)
 }
+
+// bit.ly/BWASTARTUPWHIMSICAL
